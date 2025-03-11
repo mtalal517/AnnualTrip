@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annual Travel Plan 2K25</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3a7bd5;
+            --secondary-color: #6610f2;
+            --accent-color: #00d2ff;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.35s ease-in-out;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(-45deg, #3a7bd5, #6610f2, #00d2ff, #3a7bd5);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            color: var(--text-light);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-bottom: 80px; /* Space for footer */
+            position: relative;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            padding: 40px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            font-weight: 800;
+            letter-spacing: -1px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards 0.5s;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards;
+        }
+        
+        header p:nth-child(2) { animation-delay: 0.7s; }
+        header p:nth-child(3) { animation-delay: 0.9s; }
+        header p:nth-child(4) { animation-delay: 1.1s; }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            color: var(--text-dark);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards;
+        }
+        
+        #transport-card { animation-delay: 1.3s; }
+        #food-card { animation-delay: 1.5s; }
+        #stay-card { animation-delay: 1.7s; }
+        #budget-card { animation-delay: 1.9s; }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-header {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-body {
+            padding: 25px;
+        }
+        
+        .budget-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            transition: all 0.2s ease;
+        }
+        
+        .budget-item:last-child {
+            border-bottom: none;
+        }
+        
+        .budget-item:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+            transform: translateX(5px);
+        }
+        
+        .budget-label {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .budget-value {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .progress-container {
+            margin-bottom: 15px;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            width: 0;
+            transition: width 1.5s ease-in-out;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        thead tr {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        tbody tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+        
+        tbody tr:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .tab-container {
+            margin-top: 15px;
+        }
+        
+        .tabs {
+            display: flex;
+            overflow-x: auto;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-dark);
+            transition: var(--transition);
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .tab-content {
+            padding-top: 15px;
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .location-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+        
+        .location-item:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .location-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        .location-details {
+            flex: 1;
+        }
+        
+        .summary-chart {
+            height: 200px;
+            margin-top: 20px;
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+        }
+        
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            transition: height 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            height: 0;
+        }
+        
+        .chart-label {
+            position: absolute;
+            bottom: -30px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .chart-value {
+            position: absolute;
+            top: -25px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Footer Styles */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(90deg, #3a7bd5, #6610f2);
+            padding: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            animation: pulse 2s infinite alternate;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        @keyframes pulse {
+            from { box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2); }
+            to { box-shadow: 0 -4px 30px rgba(58, 123, 213, 0.6); }
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer {
+                font-size: 1.2rem;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Annual Travel Plan 2K25</h1>
+            <p>📍 <strong>Destination:</strong> Lasdana, Kashmir</p>
+            <p>🏠 <strong>Rest House:</strong> PTDC House</p>
+            <p>🕒 <strong>Travel Time:</strong> 5 Hours | 📏 <strong>Distance:</strong> 170 Km</p>
+        </header>
+        
+        <div class="dashboard">
+            <div id="transport-card" class="card">
+                <div class="card-header">
+                    <i class="fas fa-car"></i> Transport
+                </div>
+                <div class="card-body">
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Surf / City</span>
+                            <span>70%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" data-value="70"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Japanese Alto / BRV</span>
+                            <span>50%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" data-value="50"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Bikes</span>
+                            <span>20%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" data-value="20"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Daewoo / Local</span>
+                            <span>100%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" data-value="100"></div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin-top: 20px; margin-bottom: 15px;">Budget</h3>
+                    
+                    <div class="budget-item">
+                        <div class="budget-label">
+                            <i class="fas fa-car"></i> City
+                        </div>
+                        <div class="budget-value">8,000 PKR/car</div>
+                    </div>
+                    
+                    <div class="budget-item">
+                        <div class="budget-label">
+                            <i class="fas fa-shuttle-van"></i> Surf
+                        </div>
+                        <div class="budget-value">15,000 PKR (2-way)</div>
+                    </div>
+                    
+                    <div class="budget-item">
+                        <div class="budget-label">
+                            <i class="fas fa-car-side"></i> Alto
+                        </div>
+                        <div class="budget-value">8,000 PKR/car</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="food-card" class="card">
+                <div class="card-header">
+                    <i class="fas fa-utensils"></i> Food Plan
+                </div>
+                <div class="card-body">
+                    <div class="tab-container">
+                        <div class="tabs">
+                            <button class="tab active" data-tab="day1">Day 1</button>
+                            <button class="tab" data-tab="day2">Day 2</button>
+                            <button class="tab" data-tab="day3">Day 3</button>
+                            <button class="tab" data-tab="day4">Day 4</button>
+                        </div>
+                        
+                        <div id="day1" class="tab-content active">
+                            <div class="location-item">
+                                <div class="location-icon"><i class="fas fa-coffee"></i></div>
+                                <div class="location-details">
+                                    <div><strong>Breakfast</strong></div>
+                                    <div>From Home</div>
+                                    <div><strong>Cost:</strong> 0 PKR</div>
+                                </div>
+                            </div>
+                            
+                            <div class="location-item">
+                                <div class="location-icon"><i class="fas fa-hamburger"></i></div>
+                                <div class="location-details">
+                                    <div><strong>Lunch</strong></div>
+                                    <div>Enroute Muzra</div>
+                                    <div><strong>Cost:</strong> 5,000 PKR</div>
+                                </div>
+                            </div>
+                            
+                            <div class="location-item">
+                                <div class="location-icon"><i class="fas fa-utensils"></i></div>
+                                <div class="location-details">
+                                    <div><strong>Dinner</strong></div>
+                                    <div>Lasdana</div>
+                                    <div><strong>Cost:</strong> 6,000 PKR</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="day2" class="tab-content">
+                            <div class="location-item">
+                                <div class="location-icon"><i class="fas fa-coffee"></i></div>
+                                <div class="location-details">
+                                    <div><strong>Breakfast</strong></div>
+                                    <div>Lasdana</div>
+                                    <div><strong>Cost:</strong> 4,000 PKR</div>
+                                </div>
+                            </div>
+                            
+                            <div class="location-item">
+                                <div class="location-icon"><i class="fas fa-hamburger"></i></div>
+                                <div class="location-details">
+                                    <div><strong>Lunch</strong></div>
+                                    <div>Haji Peer</div>
+                                    <div><strong>Cost:</strong> 4,000 PKR</div>
+                                </div>
+                            </div>
+                            
+                            <div class="location-item">
+                                <div class="location-icon"><i class="fas fa-fire"></i></div>
+                                <div class="location-details">
+                                    <div><strong>Dinner (BBQ)</strong></div>
+                                    <div>Lasdana (Rest House)</div>
+                                    <div><strong>Cost:</strong> 7,000 PKR</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="day3" class="tab-content">
+                            <div class="location-item">
+                                <div class="location-icon"><i class="fas fa-coffee"></i></div>
+                                <div class="location-details">
+                                    <div><strong>Breakfast</strong></div>
+                                    <div>Lasdana</div>
+                                    <div><strong>Cost:</strong> 4,000 PKR</div>
+                                </div>
+                            </div>
+                            
+                            <div class="location-item">
+                                <div class="location-icon"><i class="fas fa-hamburger"></i></div>
+                                <div class="location-details">
+                                    <div><strong>Lunch</strong></div>
+                                    <div>Banjosa</div>
+                                    <div><strong>Cost:</strong> 4,000 PKR</div>
+                                </div>
+                            </div>
+                            
+                            <div class="location-item">
+                                <div class="location-icon"><i class="fas fa-utensils"></i></div>
+                                <div class="location-details">
+                                    <div><strong>Dinner (Biryani)</strong></div>
+                                    <div>Banjosa Rest House</div>
+                                    <div><strong>Cost:</strong> 3,000 PKR</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="day4" class="tab-content">
+                            <div class="location-item">
+                                <div class="location-icon"><i class="fas fa-coffee"></i></div>
+                                <div class="location-details">
+                                    <div><strong>Breakfast</strong></div>
+                                    <div>Banjosa</div>
+                                    <div><strong>Cost:</strong> 4,000 PKR</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="stay-card" class="card">
+                <div class="card-header">
+                    <i class="fas fa-home"></i> Stay
+                </div>
+                <div class="card-body">
+                    <div class="location-item">
+                        <div class="location-icon"><i class="fas fa-building"></i></div>
+                        <div class="location-details">
+                            <div><strong>Day 1 - Day 2</strong></div>
+                            <div>PTDC House</div>
+                            <div><strong>Cost:</strong> 10,000 PKR</div>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-icon"><i class="fas fa-mountain"></i></div>
+                        <div class="location-details">
+                            <div><strong>Day 3</strong></div>
+                            <div>Banjosa</div>
+                            <div><strong>Cost:</strong> 10,000 PKR</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="budget-card" class="card">
+                <div class="card-header">
+                    <i class="fas fa-wallet"></i> Budget Summary
+                </div>
+                <div class="card-body">
+                    <div class="budget-item">
+                        <span>🚗 Transport</span>
+                        <span>20,000 PKR</span>
+                    </div>
+                    <div class="budget-item">
+                        <span>🍽️ Food</span>
+                        <span>41,000 PKR</span>
+                    </div>
+                    <div class="budget-item">
+                        <span>🏠 Stay</span>
+                        <span>20,000 PKR</span>
+                    </div>
+                    <div class="budget-item">
+                        <span>Total</span>
+                        <span>81,000 PKR</span>
+                    </div>
+                    
+                    <p style="margin-top: 15px; font-weight: bold; text-align: center;">
+                        Advance Payment: 15,000 PKR per person
+                    </p>
+                    
+                    <div class="summary-chart">
+                        <div class="chart-bar" data-height="25">
+                            <div class="chart-value">25%</div>
+                            <div class="chart-label">Transport</div>
+                        </div>
+                        <div class="chart-bar" data-height="51">
+                            <div class="chart-value">51%</div>
+                            <div class="chart-label">Food</div>
+                        </div>
+                        <div class="chart-bar" data-height="24">
+                            <div class="chart-value">24%</div>
+                            <div class="chart-label">Stay</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Prominent Footer -->
+    <div class="footer">
+        Powered by MKC
+    </div>
+    
+    <script>
+        // Animate progress bars
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate progress bars
+            setTimeout(() => {
+                document.querySelectorAll('.progress').forEach(bar => {
+                    const value = bar.getAttribute('data-value');
+                    bar.style.width = value + '%';
+                });
+            }, 500);
+            
+            // Animate chart bars
+            setTimeout(() => {
+                document.querySelectorAll('.chart-bar').forEach(bar => {
+                    const height = bar.getAttribute('data-height');
+                    bar.style.height = height + '%';
+                });
+            }, 1000);
+            
+            // Tab functionality
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and contents
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
